@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWSProcessor", "JWSProcesso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWSLib", "JWSLib\JWSLib.csproj", "{0B8FF5A4-F164-47CC-9E74-6BCEB031F331}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWSProcessorGUI", "JWSProcessorGUI\JWSProcessorGUI.csproj", "{9BD0DFA7-4718-4BB3-B1A4-5BBFAB2ED23B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{0B8FF5A4-F164-47CC-9E74-6BCEB031F331}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B8FF5A4-F164-47CC-9E74-6BCEB031F331}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B8FF5A4-F164-47CC-9E74-6BCEB031F331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD0DFA7-4718-4BB3-B1A4-5BBFAB2ED23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD0DFA7-4718-4BB3-B1A4-5BBFAB2ED23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD0DFA7-4718-4BB3-B1A4-5BBFAB2ED23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD0DFA7-4718-4BB3-B1A4-5BBFAB2ED23B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
