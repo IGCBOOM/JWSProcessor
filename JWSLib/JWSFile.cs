@@ -69,14 +69,33 @@ namespace JWSLib
 
                 _yDataChannels.Add(new List<float>());
 
-                var curX = _info.XMax;
-                var curYDataPoint = 0;
-                while (curX >= _info.XMin - 0.1)
+                if (_info.XIncrement < 0)
                 {
-                    _xData.Add(Math.Round(curX, _info.XIncrementPrecision));
-                    _yDataChannels[i].Add(unpackedChunks[i][curYDataPoint]);
-                    curX += _info.XIncrement;
-                    curYDataPoint++;
+
+                    var curX = _info.XMax;
+                    var curYDataPoint = 0;
+                    while (curX >= _info.XMin - 0.1)
+                    {
+                        _xData.Add(Math.Round(curX, _info.XIncrementPrecision));
+                        _yDataChannels[i].Add(unpackedChunks[i][curYDataPoint]);
+                        curX += _info.XIncrement;
+                        curYDataPoint++;
+                    }
+
+                }
+                else
+                {
+
+                    var curX = _info.XMin;
+                    var curYDataPoint = 0;
+                    while (curX <= _info.XMax + 0.1)
+                    {
+                        _xData.Add(Math.Round(curX, _info.XIncrementPrecision));
+                        _yDataChannels[i].Add(unpackedChunks[i][curYDataPoint]);
+                        curX += _info.XIncrement;
+                        curYDataPoint++;
+                    }
+
                 }
 
             }

@@ -1,4 +1,7 @@
 ﻿using JWSLib;
 
-var file = new JWSFile("sample_CD_HT_Abs.jws", 1);
-file.ExportToCSV();
+foreach (var arg in args)
+{
+    var file = new JWSFile(arg, 1);
+    file.ExportToCSV();
+}

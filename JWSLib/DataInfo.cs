@@ -27,13 +27,27 @@ namespace JWSLib
             }
 
             NumPoints = BitConverter.ToUInt32(_data, 20);
-            XMax = BitConverter.ToDouble(_data, 24);
-            XMin = BitConverter.ToDouble(_data, 32);
+            double xFirst = BitConverter.ToDouble(_data, 24);
+            double xLast = BitConverter.ToDouble(_data, 32);
             XIncrement = BitConverter.ToDouble(_data, 40);
+
+            if (xFirst > xLast)
+            {
+                XMax = xFirst;
+                XMin = xLast;
+            }
+            else
+            {
+                XMax = xLast;
+                XMin = xFirst;
+            }
 
             var xIncrementStr = XIncrement.ToString(CultureInfo.InvariantCulture);
             var xIncrementDecimalDigits = xIncrementStr.Split('.');
-            XIncrementPrecision = xIncrementDecimalDigits[1].Length;
+            if (xIncrementDecimalDigits.Length == 2)
+            {
+                XIncrementPrecision = xIncrementDecimalDigits[1].Length;
+            }
 
         }
 
