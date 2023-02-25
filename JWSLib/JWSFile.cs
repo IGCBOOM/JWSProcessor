@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.IO;
 using OpenMcdf;
 
 namespace JWSLib
@@ -127,7 +128,8 @@ namespace JWSLib
 
             }
 
-            File.WriteAllText(destination == "" ? $"{_fileName}.csv" : destination, csvFileBuilder.ToString());
+            var path = Path.Join(destination, $"{_fileName}.csv");
+            File.WriteAllText(path, csvFileBuilder.ToString());
 
         }
 
