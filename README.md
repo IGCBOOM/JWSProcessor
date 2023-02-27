@@ -1,6 +1,6 @@
 # JWSProcessor
 
-A C# processor for Jasco JWS files
+A C# processor for Jasco JWS files to csv files.
 
 .NET 7.0 is required to build and run this.
 
