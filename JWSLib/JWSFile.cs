@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.IO;
 using OpenMcdf;
+using System.Xml.Linq;
 
 namespace JWSLib
 {
@@ -15,7 +16,7 @@ namespace JWSLib
         private List<double> _xData = new();
         private List<List<float>> _yDataChannels = new();
 
-        public JWSFile(string filePath, int numChannels)
+        public JWSFile(string filePath)
         {
 
             _fileName = Path.GetFileNameWithoutExtension(filePath);
@@ -32,11 +33,32 @@ namespace JWSLib
             _info = new DataInfo(dataInfoBytes);
 
             var yDataStream = jwsFile.RootStorage.GetStream("Y-Data");
+            
+            CFStream? xDataStream = null;
+            if (jwsFile.RootStorage.TryGetStream("X-Data", out xDataStream))
+            {
+            }
 
             var yDataBytes = yDataStream.GetData();
             if (yDataBytes == null)
             {
                 throw new Exception("No Y-Data in file!");
+            }
+
+            byte[]? xDataBytes = null;
+            if (xDataStream != null)
+            {
+                xDataBytes = xDataStream.GetData();
+            }
+
+            var yDataSize = yDataBytes.Length;
+            long yDataCur = yDataSize / 4;
+            var numChannels = 1;
+
+            while (yDataCur != _info.NumPoints)
+            {
+                yDataCur -= _info.NumPoints;
+                numChannels++;
             }
 
             _dataChunkSize = yDataBytes.Length / numChannels;
@@ -51,36 +73,49 @@ namespace JWSLib
             }
 
             var unpackedChunks = new List<float[]>();
+            var unpackedXData = new float[_info.NumPoints];
+            var xDataEmpty = true;
+
+            if (xDataBytes != null)
+            {
+
+
+                var xOffset = 0;
+                for (int i = 0; i < _info.NumPoints; i++)
+                {
+                    unpackedXData[i] = BitConverter.ToSingle(xDataBytes, xOffset);
+                    xOffset += 4;
+                }
+                
+                xDataEmpty = false;
+
+            }
 
             for (var i = 0; i < chunks.Count; i++)
             {
 
                 unpackedChunks.Add(new float[_info.NumPoints]);
-                var offset = 0;
+                var yOffset = 0;
                 for (var j = 0; j < _info.NumPoints; j++)
                 {
-                    unpackedChunks[i][j] = BitConverter.ToSingle(chunks[i], offset);
-                    offset += 4;
+                    unpackedChunks[i][j] = BitConverter.ToSingle(chunks[i], yOffset);
+                    yOffset += 4;
                 }
 
             }
 
-            for (var i = 0; i < unpackedChunks.Count; i++)
+            // Add X-Data to List
+            if (xDataEmpty)
             {
-
-                _yDataChannels.Add(new List<float>());
 
                 if (_info.XIncrement < 0)
                 {
 
                     var curX = _info.XMax;
-                    var curYDataPoint = 0;
                     while (curX >= _info.XMin - 0.1)
                     {
                         _xData.Add(Math.Round(curX, _info.XIncrementPrecision));
-                        _yDataChannels[i].Add(unpackedChunks[i][curYDataPoint]);
                         curX += _info.XIncrement;
-                        curYDataPoint++;
                     }
 
                 }
@@ -88,15 +123,34 @@ namespace JWSLib
                 {
 
                     var curX = _info.XMin;
-                    var curYDataPoint = 0;
                     while (curX <= _info.XMax + 0.1)
                     {
                         _xData.Add(Math.Round(curX, _info.XIncrementPrecision));
-                        _yDataChannels[i].Add(unpackedChunks[i][curYDataPoint]);
                         curX += _info.XIncrement;
-                        curYDataPoint++;
                     }
 
+                }
+
+            }
+            else
+            {
+                for (var i = 0; i < _info.NumPoints; i++)
+                {
+                    _xData.Add(unpackedXData[i]);
+                }
+            }
+
+            // Add Y-Data to List
+            for (var i = 0; i < unpackedChunks.Count; i++)
+            {
+
+                _yDataChannels.Add(new List<float>());
+
+                var curYDataPoint = 0;
+                for (int j = 0; j < _info.NumPoints; j++)
+                {
+                    _yDataChannels[i].Add(unpackedChunks[i][curYDataPoint]);
+                    curYDataPoint++;
                 }
 
             }

@@ -13,7 +13,6 @@ namespace JWSProcessorGUI
         {
             Text = "JWSProcessorGUI";
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            ChannelNumberBox.Text = "1";
 
         }
 
@@ -32,19 +31,8 @@ namespace JWSProcessorGUI
 
             foreach (var file in FileList.Items)
             {
-
-                var channelNum = 1;
-                if (int.TryParse(ChannelNumberBox.Text, out var result))
-                {
-                    if (result > 0)
-                    {
-                        channelNum = result;
-                    }
-                }
-
-                var jwsFile = new JWSFile((string)file, channelNum);
+                var jwsFile = new JWSFile((string)file);
                 jwsFile.ExportToCSV(DestinationFolderBox.Text);
-
             }
 
         }

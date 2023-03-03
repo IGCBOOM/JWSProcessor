@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.FileList = new System.Windows.Forms.ListBox();
-            this.ChannelNumberBox = new System.Windows.Forms.TextBox();
-            this.ChannelLabel = new System.Windows.Forms.Label();
             this.ExportButton = new System.Windows.Forms.Button();
             this.RemoveFileButton = new System.Windows.Forms.Button();
             this.AddFileButton = new System.Windows.Forms.Button();
@@ -50,24 +48,6 @@
             this.FileList.Size = new System.Drawing.Size(200, 319);
             this.FileList.TabIndex = 0;
             this.FileList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
-            // 
-            // ChannelNumberBox
-            // 
-            this.ChannelNumberBox.Location = new System.Drawing.Point(227, 33);
-            this.ChannelNumberBox.Name = "ChannelNumberBox";
-            this.ChannelNumberBox.Size = new System.Drawing.Size(102, 23);
-            this.ChannelNumberBox.TabIndex = 1;
-            this.ChannelNumberBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // ChannelLabel
-            // 
-            this.ChannelLabel.AutoSize = true;
-            this.ChannelLabel.Location = new System.Drawing.Point(218, 15);
-            this.ChannelLabel.Name = "ChannelLabel";
-            this.ChannelLabel.Size = new System.Drawing.Size(120, 15);
-            this.ChannelLabel.TabIndex = 2;
-            this.ChannelLabel.Text = " Number of Channels";
-            this.ChannelLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // ExportButton
             // 
@@ -138,8 +118,6 @@
             this.Controls.Add(this.AddFileButton);
             this.Controls.Add(this.RemoveFileButton);
             this.Controls.Add(this.ExportButton);
-            this.Controls.Add(this.ChannelLabel);
-            this.Controls.Add(this.ChannelNumberBox);
             this.Controls.Add(this.FileList);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -155,8 +133,6 @@
         #endregion
 
         private ListBox FileList;
-        private TextBox ChannelNumberBox;
-        private Label ChannelLabel;
         private Button ExportButton;
         private Button RemoveFileButton;
         private Button AddFileButton;
